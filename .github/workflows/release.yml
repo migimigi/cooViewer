@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and release macOS arm64
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Build app
+        run: |
+          xcodebuild \
+            -project cooViewer.xcodeproj \
+            -scheme cooViewer \
+            -configuration Deployment \
+            -arch arm64 \
+            CODE_SIGNING_ALLOWED=NO \
+            MACOSX_DEPLOYMENT_TARGET=11.0 \
+            build
+
+      - name: Verify arm64 binaries
+        run: |
+          set -euo pipefail
+          APP="build/Deployment/cooViewer.app"
+          lipo -info "$APP/Contents/MacOS/cooViewer" | grep -q "arm64"
+          lipo -info "$APP/Contents/Frameworks/XADMaster.framework/Versions/A/XADMaster" | grep -q "arm64"
+          lipo -info "$APP/Contents/Frameworks/UniversalDetector.framework/Versions/A/UniversalDetector" | grep -q "arm64"
+          otool -L "$APP/Contents/MacOS/cooViewer"
+          otool -l "$APP/Contents/MacOS/cooViewer" | grep -A2 LC_RPATH | grep -q "@executable_path/../Frameworks"
+
+      - name: Package
+        run: |
+          set -euo pipefail
+          cd build/Deployment
+          ditto -c -k --sequesterRsrc --keepParent cooViewer.app "../../cooViewer-${GITHUB_REF_NAME}-macos-arm64.zip"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            "cooViewer-${GITHUB_REF_NAME}-macos-arm64.zip" \
+            --title "cooViewer ${GITHUB_REF_NAME}" \
+            --generate-notes

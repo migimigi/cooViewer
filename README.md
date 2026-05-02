@@ -5,6 +5,16 @@ https://coo-ona.github.io/cooViewer/
 MacBook Pro (2.3GHz/16GB)<br>
 MacOS X 10.14.5
 
+## ビルド
+依存ライブラリは submodule として管理しています。
+
+```
+git submodule update --init --recursive
+xcodebuild -project cooViewer.xcodeproj -scheme cooViewer -configuration Deployment -arch arm64 CODE_SIGNING_ALLOWED=NO MACOSX_DEPLOYMENT_TARGET=11.0 build
+```
+
+`v*` 形式のタグを GitHub に push すると、GitHub Actions が未署名の macOS arm64 zip を Release に添付します。
+
 ## 操作方法
 https://coo-ona.github.io/cooViewer/manual.html
 

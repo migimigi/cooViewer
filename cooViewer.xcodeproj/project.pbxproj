@@ -639,6 +639,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 762F248A0899B2FD00419EAA /* Build configuration list for PBXNativeTarget "cooViewer" */;
 			buildPhases = (
+				CEB3DF8B28B4D9EB0096478C /* Build XADMaster */,
 				766DEF5607E5CDD80039AAD0 /* Headers */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
@@ -722,6 +723,29 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CEB3DF8B28B4D9EB0096478C /* Build XADMaster */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/XADMaster.framework",
+				"$(SRCROOT)/UniversalDetector.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\ncd \"${SRCROOT}/XADMaster\"\nxcodebuild -scheme XADMaster -configuration Release -arch arm64 CONFIGURATION_BUILD_DIR=\"${SRCROOT}\" CODE_SIGNING_ALLOWED=NO MACOSX_DEPLOYMENT_TARGET=11.0 clean build\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D11072C0486CEB800E47090 /* Sources */ = {
@@ -1000,6 +1024,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.coo.cooViewer;
@@ -1015,6 +1040,7 @@
 				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 1.2b25;
+				ARCHS = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 					"\"$(SRCROOT)\"",
@@ -1089,7 +1115,9 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ARCHS = arm64;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				SYMROOT = build/;
 			};
 			name = Deployment;
