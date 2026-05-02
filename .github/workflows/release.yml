@@ -46,8 +46,14 @@ jobs:
       - name: Package
         run: |
           set -euo pipefail
-          cd build/Deployment
-          ditto -c -k --sequesterRsrc --keepParent cooViewer.app "../../cooViewer-${GITHUB_REF_NAME}-macos-arm64.zip"
+          PACKAGE_DIR="dist/cooViewer-${GITHUB_REF_NAME}-macos-arm64"
+          rm -rf dist
+          mkdir -p "$PACKAGE_DIR/licenses"
+          cp -R "build/Deployment/cooViewer.app" "$PACKAGE_DIR/"
+          cp README.md Licence.txt Licence_xad.txt Licence_RemoteControlWrapper.txt THIRD_PARTY_NOTICES.md "$PACKAGE_DIR/"
+          cp XADMaster/LICENSE "$PACKAGE_DIR/licenses/XADMaster-LICENSE.txt"
+          cp UniversalDetector/LICENSE "$PACKAGE_DIR/licenses/UniversalDetector-LICENSE.txt"
+          ditto -c -k --sequesterRsrc --keepParent "$PACKAGE_DIR" "cooViewer-${GITHUB_REF_NAME}-macos-arm64.zip"
 
       - name: Create GitHub Release
         env:

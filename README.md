@@ -14,6 +14,7 @@ xcodebuild -project cooViewer.xcodeproj -scheme cooViewer -configuration Deploym
 ```
 
 `v*` 形式のタグを GitHub に push すると、GitHub Actions が未署名の macOS arm64 zip を Release に添付します。
+Release zip にはアプリ本体と第三者ライセンス文書を同梱します。
 
 ## 操作方法
 https://coo-ona.github.io/cooViewer/manual.html
