@@ -1,3 +1,16 @@
+# cooViewer Appleシリコン対応版
+これは、[cooViewer](https://github.com/coo-ona/cooViewer)をForkしAppleシリコン用にビルドするリポジトリです。
+`v*` 形式のタグを GitHub に push すると、GitHub Actions が未署名の macOS arm64 zip を Release に添付します。
+Release zip にはアプリ本体と第三者ライセンス文書を同梱します。
+
+## ビルド
+依存ライブラリは submodule として管理しています。
+
+```
+git submodule update --init --recursive
+xcodebuild -project cooViewer.xcodeproj -scheme cooViewer -configuration Deployment -arch arm64 CODE_SIGNING_ALLOWED=NO MACOSX_DEPLOYMENT_TARGET=11.0 build
+```
+
 # cooViewer1.2b
 https://coo-ona.github.io/cooViewer/
 
