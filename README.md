@@ -1,9 +1,7 @@
-# cooViewer1.2b
-https://coo-ona.github.io/cooViewer/
-
-## 開発環境
-MacBook Pro (2.3GHz/16GB)<br>
-MacOS X 10.14.5
+# cooViewer Appleシリコン対応版
+これは、[cooViewer](https://github.com/coo-ona/cooViewer)をForkしAppleシリコン用にビルドするリポジトリです。
+`v*` 形式のタグを GitHub に push すると、GitHub Actions が未署名の macOS arm64 zip を Release に添付します。
+Release zip にはアプリ本体と第三者ライセンス文書を同梱します。
 
 ## ビルド
 依存ライブラリは submodule として管理しています。
@@ -13,8 +11,12 @@ git submodule update --init --recursive
 xcodebuild -project cooViewer.xcodeproj -scheme cooViewer -configuration Deployment -arch arm64 CODE_SIGNING_ALLOWED=NO MACOSX_DEPLOYMENT_TARGET=11.0 build
 ```
 
-`v*` 形式のタグを GitHub に push すると、GitHub Actions が未署名の macOS arm64 zip を Release に添付します。
-Release zip にはアプリ本体と第三者ライセンス文書を同梱します。
+# cooViewer1.2b
+https://coo-ona.github.io/cooViewer/
+
+## 開発環境
+MacBook Pro (2.3GHz/16GB)<br>
+MacOS X 10.14.5
 
 ## 操作方法
 https://coo-ona.github.io/cooViewer/manual.html
