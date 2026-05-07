@@ -43,6 +43,15 @@ jobs:
           otool -L "$APP/Contents/MacOS/cooViewer"
           otool -l "$APP/Contents/MacOS/cooViewer" | grep -A2 LC_RPATH | grep -q "@executable_path/../Frameworks"
 
+      - name: Ad-hoc sign app bundle
+        run: |
+          set -euo pipefail
+          APP="build/Deployment/cooViewer.app"
+          codesign --force --sign - --timestamp=none "$APP/Contents/Frameworks/XADMaster.framework"
+          codesign --force --sign - --timestamp=none "$APP/Contents/Frameworks/UniversalDetector.framework"
+          codesign --force --deep --sign - --timestamp=none "$APP"
+          codesign --verify --deep --strict --verbose=4 "$APP"
+
       - name: Package
         run: |
           set -euo pipefail
@@ -71,6 +80,7 @@ jobs:
           otool -l "$APP/Contents/MacOS/cooViewer" | grep -A2 LC_RPATH | grep -q "@executable_path/../Frameworks"
           otool -L "$APP/Contents/MacOS/cooViewer" | grep -q "@rpath/XADMaster.framework/Versions/A/XADMaster"
           otool -L "$APP/Contents/MacOS/cooViewer" | grep -q "@rpath/UniversalDetector.framework/Versions/A/UniversalDetector"
+          codesign --verify --deep --strict --verbose=4 "$APP"
 
       - name: Create GitHub Release
         env:
