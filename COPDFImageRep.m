@@ -94,6 +94,9 @@
 
 -(void)setLinkList:(NSArray*)array;
 {
+	if (linkList) {
+		[linkList release];
+	}
 	linkList = [array retain];
 }
 
